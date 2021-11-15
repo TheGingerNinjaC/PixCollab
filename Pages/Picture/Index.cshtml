@@ -1,0 +1,53 @@
+﻿@page
+@model PixCollab.Pages.Picture.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+</style>
+
+<div>
+    <h4 class="fw-light text-center text-lg-start mt-4 mb-2 font-weight-bold">Your Pictures</h4>
+    <p><a class="btn btn-sm btn-outline-dark" asp-page="Create"><i class="fas fa-cloud-upload-alt"></i> Upload</a></p>
+</div>
+
+<hr class="mt-1 mb-3">
+
+<div class="row" data-masonry='{"percentPosition": true }'>
+
+
+    @foreach (var item in Model.Picture)
+    {
+        string uploaded = "";
+
+        if ((DateTime.Now - item.DateAdded).Days <= 1)
+        {
+            if ((DateTime.Now - item.DateAdded).Hours <= 1)
+            {
+                uploaded = "Added " + (DateTime.Now - item.DateAdded).Minutes + " minutes ago";
+            }
+            else
+            {
+                uploaded = "Added " + (DateTime.Now - item.DateAdded).Hours + " hours ago";
+            }
+        }
+        else
+        {
+            uploaded = "Added " + (DateTime.Now - item.DateAdded).Days + " days ago";
+        }
+
+        <div class="col-sm-4 col-lg-3 mb-4">
+            <div class="card">
+                <img src="@item.URL" alt="..." class="card-img-top">
+                <div class="card-body">
+                    <p class="card-text"><small class="text-muted">@uploaded</small></p>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>

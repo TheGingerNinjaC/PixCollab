@@ -1,0 +1,32 @@
+﻿@page
+@model PixCollab.Pages.Picture.CreateModel
+
+@{
+    ViewData["Title"] = "Upload Pictures";
+}
+
+<h2 class="fw-light text-center text-lg-start mt-4 mb-2 font-weight-bold">Upload Pictures</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="input-group mb-2">
+                <input class="form-control" asp-for="Files" type="file" multiple>
+                <button class="btn btn-outline-secondary" type="submit" id="Files">Upload</button>
+            </div>
+            @*<div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>*@
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

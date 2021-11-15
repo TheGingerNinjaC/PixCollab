@@ -219,6 +219,102 @@ namespace PixCollab.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PixCollab.Models.Picture", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Owner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserInfoUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserInfoUserId");
+
+                    b.ToTable("Picture");
+                });
+
+            modelBuilder.Entity("PixCollab.Models.PictureAccess", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PictureID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserInfoUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("PictureID");
+
+                    b.HasIndex("UserInfoUserId");
+
+                    b.ToTable("PictureAccess");
+                });
+
+            modelBuilder.Entity("PixCollab.Models.PictureMetadata", b =>
+                {
+                    b.Property<string>("PictureId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CapturedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CapturedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Geolocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PictureId");
+
+                    b.ToTable("PictureMetadata");
+                });
+
+            modelBuilder.Entity("PixCollab.Models.UserInfo", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserInfo");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -268,6 +364,24 @@ namespace PixCollab.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PixCollab.Models.Picture", b =>
+                {
+                    b.HasOne("PixCollab.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoUserId");
+                });
+
+            modelBuilder.Entity("PixCollab.Models.PictureAccess", b =>
+                {
+                    b.HasOne("PixCollab.Models.Picture", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureID");
+
+                    b.HasOne("PixCollab.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoUserId");
                 });
 #pragma warning restore 612, 618
         }
