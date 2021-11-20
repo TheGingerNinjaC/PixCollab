@@ -30,7 +30,7 @@ namespace PixCollab.Pages.Picture
         {
             var userid = _userManager.GetUserAsync(User).Result.Id;
 
-            Picture = await _context.Picture.Where(x => x.Owner == userid).ToListAsync();
+            Picture = await _context.Picture.Where(x => x.OwnerId == userid).Include(u => u.Owner).ToListAsync();
         }
     }
 }

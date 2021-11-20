@@ -13,7 +13,6 @@ namespace PixCollab.Models
 
         public int PhotoId { get; set; }
 
-        public Picture Picture { get; set; }
-        public UserInfo UserInfo { get; set; }
+        
     }
 }

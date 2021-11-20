@@ -13,8 +13,8 @@ namespace PixCollab.Models
         public string Description { get; set; }
         public DateTime DateAdded { get; set; }
         public string URL { get; set; }
-        public string Owner { get; set; }
 
-        public UserInfo UserInfo { get; set; }
+        public string OwnerId { get; set; }
+        public UserInfo Owner { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PixCollab.Data;
 
 namespace PixCollab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211120054123_links")]
+    partial class links
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +234,10 @@ namespace PixCollab.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("Owner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureMetadataPictureId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
@@ -241,9 +246,14 @@ namespace PixCollab.Data.Migrations
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserInfoUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("PictureMetadataPictureId");
+
+                    b.HasIndex("UserInfoUserId");
 
                     b.ToTable("Picture");
                 });
@@ -256,7 +266,17 @@ namespace PixCollab.Data.Migrations
                     b.Property<int>("PhotoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PictureID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserInfoUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("PictureID");
+
+                    b.HasIndex("UserInfoUserId");
 
                     b.ToTable("PictureAccess");
                 });
@@ -355,9 +375,24 @@ namespace PixCollab.Data.Migrations
 
             modelBuilder.Entity("PixCollab.Models.Picture", b =>
                 {
-                    b.HasOne("PixCollab.Models.UserInfo", "Owner")
+                    b.HasOne("PixCollab.Models.PictureMetadata", "PictureMetadata")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("PictureMetadataPictureId");
+
+                    b.HasOne("PixCollab.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoUserId");
+                });
+
+            modelBuilder.Entity("PixCollab.Models.PictureAccess", b =>
+                {
+                    b.HasOne("PixCollab.Models.Picture", "Picture")
+                        .WithMany()
+                        .HasForeignKey("PictureID");
+
+                    b.HasOne("PixCollab.Models.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoUserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20211120081412_test2.cs" />
+    <Compile Remove="Data\Migrations\20211120081412_test2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120081631_test2.cs" />
+    <Compile Remove="Data\Migrations\20211120081631_test2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120082054_test2.cs" />
+    <Compile Remove="Data\Migrations\20211120082054_test2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.20" />

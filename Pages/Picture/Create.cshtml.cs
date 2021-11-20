@@ -71,7 +71,7 @@ namespace PixCollab.Pages.Picture
             {
                 string localFilePath = Path.Combine(_env.WebRootPath, "temp", item.FileName);
 
-                Picture.Owner = _userManager.GetUserAsync(User).Result.Id;
+                Picture.OwnerId = _userManager.GetUserAsync(User).Result.Id;
                 Picture.DateAdded = DateTime.Now;
                 Picture.URL = "https://pixcollab.blob.core.windows.net/pictures/" + item.FileName;
 
