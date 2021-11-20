@@ -23,6 +23,11 @@ namespace PixCollab.Pages.Picture
         [BindProperty]
         public Models.Picture Picture { get; set; }
 
+        [BindProperty]
+        public double Longitude { get; set; }
+        [BindProperty]
+        public double Latitude { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -30,7 +35,7 @@ namespace PixCollab.Pages.Picture
                 return NotFound();
             }
 
-            Picture = await _context.Picture.FirstOrDefaultAsync(m => m.ID == id);
+            Picture = await _context.Picture.Include(p => p.Metadata).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {

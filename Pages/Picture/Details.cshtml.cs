@@ -28,7 +28,7 @@ namespace PixCollab.Pages.Picture
                 return NotFound();
             }
 
-            Picture = await _context.Picture.FirstOrDefaultAsync(m => m.ID == id);
+            Picture = await _context.Picture.Include(u => u.Owner).Include(p => p.Metadata).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {

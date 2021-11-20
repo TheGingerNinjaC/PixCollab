@@ -9,10 +9,13 @@ namespace PixCollab.Models
     public class PictureMetadata
     {
         [Key]
-        public string PictureId { get; set; }
+        public int PictureId { get; set; }
         public string Geolocation { get; set; }
         public string Tags { get; set; }
+        [Display(Name = "Captured by")]
         public string CapturedBy { get; set; }
+        [Display(Name = "Captured date")]
+        [DataType(DataType.Date)]
         public DateTime CapturedDate { get; set; }
     }
 }

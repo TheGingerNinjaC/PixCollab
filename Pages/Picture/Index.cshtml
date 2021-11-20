@@ -43,7 +43,7 @@
                 <img src="@item.URL" alt="..." class="card-img-top">
                 <div class="card-body">
                     <p class="card-text"><small class="text-muted">@uploaded by @Html.DisplayFor(x => item.Owner.FirstName) @Html.DisplayFor(x => item.Owner.LastName)</small></p>
-                    <p class="card-text"><a asp-page="./Details" asp-route-id="@item.ID"><i class="far fa-edit"></i></a></p>
+                    <p class="card-text"><a asp-page="./Details" asp-route-id="@item.ID"><i class="far fa-edit"></i></a> &nbsp; <a><i class="fas fa-user-plus"></i></a></p>
                 </div>
             </div>
         </div>

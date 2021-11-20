@@ -13,6 +13,14 @@
     <Compile Remove="Data\Migrations\20211120081631_test2.Designer.cs" />
     <Compile Remove="Data\Migrations\20211120082054_test2.cs" />
     <Compile Remove="Data\Migrations\20211120082054_test2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120100520_picturemetadata.cs" />
+    <Compile Remove="Data\Migrations\20211120100520_picturemetadata.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120101329_picturemetadata.cs" />
+    <Compile Remove="Data\Migrations\20211120101329_picturemetadata.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120101431_picturemetadata.cs" />
+    <Compile Remove="Data\Migrations\20211120101431_picturemetadata.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211120101630_picturemetadata.cs" />
+    <Compile Remove="Data\Migrations\20211120101630_picturemetadata.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
