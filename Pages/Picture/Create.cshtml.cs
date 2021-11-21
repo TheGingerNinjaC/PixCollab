@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,7 @@ using PixCollab.Models;
 
 namespace PixCollab.Pages.Picture
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly PixCollab.Data.ApplicationDbContext _context;

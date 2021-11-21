@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using PixCollab.Models;
 
 namespace PixCollab.Pages.Picture
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly PixCollab.Data.ApplicationDbContext _context;
@@ -29,7 +31,7 @@ namespace PixCollab.Pages.Picture
                 return NotFound();
             }
 
-            Picture = await _context.Picture.Include(u => u.Metadata).FirstOrDefaultAsync(m => m.ID == id);
+            Picture = await _context.Picture.Include(u => u.Metadata).Include(p => p.Owner).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {

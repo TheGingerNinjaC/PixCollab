@@ -40,7 +40,7 @@
                             @if (Model.loggedInUser == item.OwnerId)
                             {
                                 <a style="padding-right: 10px;" asp-page="./Picture/PictureAccess" asp-route-id="@item.ID"><i class="fas fa-user-plus"></i></a>
-                                <a><i class="far fa-trash-alt text-danger"></i></a>
+                                <a asp-page="./Picture/Delete" asp-route-id="@item.ID"><i class="far fa-trash-alt text-danger"></i></a>
                             }
                         </p>
                     </div>
