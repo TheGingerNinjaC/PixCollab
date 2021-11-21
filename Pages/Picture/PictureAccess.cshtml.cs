@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,7 @@ namespace PixCollab.Pages.Picture
         public Models.Picture Picture { get; set; }
         public IList<Models.PictureAccess> PictureAccess { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, string Amsg = null, string Emsg = null)
         {
             if (id == null)
             {
@@ -47,26 +48,53 @@ namespace PixCollab.Pages.Picture
 
             PictureAccess = await _context.PictureAccess.Where(x => x.PhotoId == Picture.ID).Include(u => u.User).ToListAsync();
 
+            if (Amsg != null || Emsg != null)
+            {
+                if (Amsg != null)
+                    AlertMsg = Amsg;
+
+                if (Emsg != null)
+                    ErrorMsg = Emsg;
+            }
+
             return Page();
         }
 
         [BindProperty]
+        [Required]
         public string useremail { get; set; }
+
+        public string AlertMsg { get; set; }
+        public string ErrorMsg { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             string userid = _context.UserInfo.Where(x => x.Email == useremail).FirstOrDefault().UserId;
 
             if (userid != null && userid != "")
             {
-                var access = new Models.PictureAccess { PhotoId = Picture.ID, UserId = userid };
+                var check = _context.PictureAccess.Where(x => x.UserId == userid && x.PhotoId == Picture.ID);
 
-                _context.PictureAccess.Add(access);
+                if (check == null)
+                {
+                    var access = new Models.PictureAccess { PhotoId = Picture.ID, UserId = userid };
 
-                await _context.SaveChangesAsync();
+                    _context.PictureAccess.Add(access);
+
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    AlertMsg = useremail + " already has access to this!";
+                }
+            }
+            else
+            {
+                ErrorMsg = useremail + " is not a registered user!";
             }
 
-            return RedirectToPage("./PictureAccess", new { id = Picture.ID });
+            return RedirectToPage("./PictureAccess", new { id = Picture.ID, Amsg = AlertMsg, Emsg = ErrorMsg });
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(string uid)
@@ -75,7 +103,7 @@ namespace PixCollab.Pages.Picture
 
             if (picaccess != null)
             {
-               _context.PictureAccess.Remove(picaccess);
+                _context.PictureAccess.Remove(picaccess);
 
                 await _context.SaveChangesAsync();
             }

@@ -29,12 +29,13 @@ namespace PixCollab.Pages.Picture
                 return NotFound();
             }
 
-            Picture = await _context.Picture.FirstOrDefaultAsync(m => m.ID == id);
+            Picture = await _context.Picture.Include(u => u.Metadata).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {
                 return NotFound();
             }
+            
             return Page();
         }
 
@@ -49,6 +50,17 @@ namespace PixCollab.Pages.Picture
 
             if (Picture != null)
             {
+                var access = await _context.PictureAccess.Where(x => x.PhotoId == Picture.ID).ToListAsync();
+
+                foreach (var item in access)
+                {
+                    _context.PictureAccess.Remove(item);
+                }
+
+                var meta = await _context.PictureMetadata.FindAsync(Picture.ID);
+
+                _context.PictureMetadata.Remove(meta);
+
                 _context.Picture.Remove(Picture);
                 await _context.SaveChangesAsync();
             }

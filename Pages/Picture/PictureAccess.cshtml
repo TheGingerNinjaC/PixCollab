@@ -29,12 +29,31 @@
                     @foreach (var item in Model.PictureAccess)
                     {
                         <form method="post" asp-page-handler="Delete" asp-route-uid="@item.UserId">
-                            <input type="hidden" asp-for="Picture.ID"/>
+                            <input type="hidden" asp-for="Picture.ID" />
                             <span class="border border-success rounded p-2 small m-1">
                                 @item.User.FirstName @item.User.LastName &nbsp; <button type="submit" class="btn-close" aria-label="Close"></button>
                             </span>
                         </form>
 
+                    }
+
+                    @if (Model.ErrorMsg != null || Model.AlertMsg != null)
+                    {
+                        if (Model.ErrorMsg != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                                @Model.ErrorMsg
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        if (Model.AlertMsg != null)
+                        {
+                            <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+                                @Model.AlertMsg
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
                     }
                 </div>
             </div>

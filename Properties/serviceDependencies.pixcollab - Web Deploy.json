@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/pixcollab",
+      "type": "storage.azure",
+      "connectionId": "AZURE_STORAGE_CONNECTION_STRING",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
