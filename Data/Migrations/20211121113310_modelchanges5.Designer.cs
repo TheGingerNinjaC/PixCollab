@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PixCollab.Data;
 
 namespace PixCollab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211121113310_modelchanges5")]
+    partial class modelchanges5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,22 +253,15 @@ namespace PixCollab.Data.Migrations
 
             modelBuilder.Entity("PixCollab.Models.PictureAccess", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PhotoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
+                    b.HasKey("UserId");
 
                     b.HasIndex("PhotoId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("PictureAccess");
                 });
@@ -380,9 +375,9 @@ namespace PixCollab.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PixCollab.Models.UserInfo", "User")
+                    b.HasOne("PixCollab.Models.UserInfo", "UserInfo")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserInfoUserId");
                 });
 
             modelBuilder.Entity("PixCollab.Models.PictureMetadata", b =>

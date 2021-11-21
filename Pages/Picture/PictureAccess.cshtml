@@ -4,3 +4,40 @@
     ViewData["Title"] = "Share Picture";
 }
 
+<div class="mt-4">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="card-title">Share Picture</h5>
+        </div>
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.Picture.URL" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <input type="hidden" asp-for="Picture.ID" />
+                        <label for="exampleFormControlInput1" class="form-label">Add an email</label>
+                        <div class="input-group mb-3 col-3">
+
+                            <input type="email" class="form-control" asp-for="useremail" placeholder="name@example.com">
+                            <button class="btn btn-outline-dark" type="submit" id="button-addon2">Submit</button>
+                        </div>
+                    </form>
+                    <label class="form-label pb-1">Access has been granted to</label><br />
+                    @foreach (var item in Model.PictureAccess)
+                    {
+                        <form method="post" asp-page-handler="Delete" asp-route-uid="@item.UserId">
+                            <input type="hidden" asp-for="Picture.ID"/>
+                            <span class="border border-success rounded p-2 small m-1">
+                                @item.User.FirstName @item.User.LastName &nbsp; <button type="submit" class="btn-close" aria-label="Close"></button>
+                            </span>
+                        </form>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

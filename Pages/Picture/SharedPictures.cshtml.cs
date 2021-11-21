@@ -39,5 +39,21 @@ where pa.UserId = '{0}'", userid);
             Picture = await _context.Picture
                 .FromSqlRaw(qry).Include(x => x.Owner).ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int pid)
+        {
+            var picaccess = _context.PictureAccess.Where(x => x.UserId == _userManager.GetUserId(User) && x.PhotoId == pid).FirstOrDefault();
+
+            if (picaccess != null)
+            {
+                _context.PictureAccess.Remove(picaccess);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./SharedPictures");
+        }
+
+
     }
 }

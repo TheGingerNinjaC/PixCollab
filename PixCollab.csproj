@@ -21,6 +21,8 @@
     <Compile Remove="Data\Migrations\20211120101431_picturemetadata.Designer.cs" />
     <Compile Remove="Data\Migrations\20211120101630_picturemetadata.cs" />
     <Compile Remove="Data\Migrations\20211120101630_picturemetadata.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211121115307_modelchanges10.cs" />
+    <Compile Remove="Data\Migrations\20211121115307_modelchanges10.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

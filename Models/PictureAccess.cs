@@ -9,9 +9,11 @@ namespace PixCollab.Models
     public class PictureAccess
     {
         [Key]
-        public string UserId { get; set; }
-        public UserInfo UserInfo { get; set; }
+        public int ID { get; set; }
 
+        public string UserId { get; set; }
+        public UserInfo User { get; set; }
+        
         public int PhotoId { get; set; }
         public Picture Photo { get; set; }
 

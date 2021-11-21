@@ -21,6 +21,6 @@ namespace PixCollab.Models
         public string OwnerId { get; set; }
         public UserInfo Owner { get; set; }
         public PictureMetadata Metadata { get; set; }
-        public PictureAccess PictureAccess { get; set; }
+        public List<PictureAccess> PictureAccess { get; set; }
     }
 }

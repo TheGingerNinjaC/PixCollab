@@ -32,11 +32,13 @@ namespace PixCollab.Pages
         {
             var userid = _userManager.GetUserAsync(User).Result.Id;
 
-            string qry = string.Format(@"SELECT p.* FROM dbo.Picture p
+            string qry = string.Format(@"SELECT * FROM dbo.Picture 
+where OwnerId = '{0}'
+union
+select p.* from dbo.Picture p
 left outer join dbo.PictureAccess pa
-on pa.PhotoId = p.ID
-where p.OwnerId = '{0}'
-or pa.UserId = '{0}'", userid);
+on  p.ID = pa.PhotoId
+where pa.UserId = '{0}'", userid);
 
             Picture = await _context.Picture
                 .FromSqlRaw(qry).Include(x => x.Owner).ToListAsync();
