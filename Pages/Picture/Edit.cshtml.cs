@@ -24,9 +24,9 @@ namespace PixCollab.Pages.Picture
         public Models.Picture Picture { get; set; }
 
         [BindProperty]
-        public double Longitude { get; set; }
+        public string Longitude { get; set; }
         [BindProperty]
-        public double Latitude { get; set; }
+        public string Latitude { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -41,6 +41,20 @@ namespace PixCollab.Pages.Picture
             {
                 return NotFound();
             }
+            else
+            {
+                if (_context.PictureMetadata.Any(m => m.PictureId == Picture.ID))
+                {
+                    if (Picture.Metadata.Geolocation != null && Picture.Metadata.Geolocation != "")
+                    {
+                        string[] split = Picture.Metadata.Geolocation.Split(' ');
+
+                        Longitude = split[0];
+                        Latitude = split[1];
+                    }
+                }
+            }
+        
             return Page();
         }
 
@@ -54,6 +68,17 @@ namespace PixCollab.Pages.Picture
             }
 
             _context.Attach(Picture).State = EntityState.Modified;
+
+            Picture.Metadata.Geolocation = Longitude + " " + Latitude;
+
+            if (_context.PictureMetadata.Any(m => m.PictureId == Picture.ID))
+            {
+                _context.Attach(Picture.Metadata).State = EntityState.Modified;
+            }
+            else
+            {
+                _context.Add(Picture.Metadata);
+            }
 
             try
             {

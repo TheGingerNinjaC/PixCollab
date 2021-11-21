@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PixCollab.Data;
 
 namespace PixCollab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211121065401_pictureaccesskeys")]
+    partial class pictureaccesskeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,8 +263,7 @@ namespace PixCollab.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("PhotoId")
-                        .IsUnique();
+                    b.HasIndex("PhotoId");
 
                     b.HasIndex("UserInfoUserId");
 
@@ -371,8 +372,8 @@ namespace PixCollab.Data.Migrations
             modelBuilder.Entity("PixCollab.Models.PictureAccess", b =>
                 {
                     b.HasOne("PixCollab.Models.Picture", "Photo")
-                        .WithOne("PictureAccess")
-                        .HasForeignKey("PixCollab.Models.PictureAccess", "PhotoId")
+                        .WithMany()
+                        .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

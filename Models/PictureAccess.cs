@@ -10,8 +10,10 @@ namespace PixCollab.Models
     {
         [Key]
         public string UserId { get; set; }
+        public UserInfo UserInfo { get; set; }
 
         public int PhotoId { get; set; }
+        public Picture Photo { get; set; }
 
         
     }
