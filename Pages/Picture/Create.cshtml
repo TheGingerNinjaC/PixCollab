@@ -13,12 +13,23 @@
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="input-group mb-2">
-                <input class="form-control" asp-for="Files" type="file" multiple>
-                <button class="btn btn-outline-secondary" type="submit" id="Files">Upload</button>
+                <input class="form-control" asp-for="Files" type="file">
+
             </div>
+            <div class="form-group">
+                <label asp-for="Picture.Title" class="control-label"></label>
+                <input asp-for="Picture.Title" class="form-control" />
+                <span asp-validation-for="Picture.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture.Description" class="control-label"></label>
+                <input asp-for="Picture.Description" class="form-control" />
+                <span asp-validation-for="Picture.Description" class="text-danger"></span>
+            </div>
+            <button class="btn btn-outline-secondary" type="submit" id="Files">Upload</button>
             @*<div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>*@
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>*@
         </form>
     </div>
 </div>

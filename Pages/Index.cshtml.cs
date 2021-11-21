@@ -26,6 +26,7 @@ namespace PixCollab.Pages
         }
 
         public IList<Models.Picture> Picture { get; set; }
+        public string loggedInUser { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -39,6 +40,8 @@ or pa.UserId = '{0}'", userid);
 
             Picture = await _context.Picture
                 .FromSqlRaw(qry).Include(x => x.Owner).ToListAsync();
+
+            loggedInUser = userid;
         }
     }
 }

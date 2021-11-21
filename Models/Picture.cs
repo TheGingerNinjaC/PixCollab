@@ -10,6 +10,7 @@ namespace PixCollab.Models
     public class Picture
     {
         public int ID { get; set; }
+        [Required]
         public string Title { get; set; }
         public string Description { get; set; }
         [Display(Name = "Date Added")]
