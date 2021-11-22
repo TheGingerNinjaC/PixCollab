@@ -31,19 +31,19 @@ namespace PixCollab.Pages.Picture
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage("NotFound");
             }
 
             Picture = await _context.Picture.Include(u => u.Owner).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {
-                return NotFound();
+                return RedirectToPage("NotFound");
             }
 
             if (Picture.OwnerId != _userManager.GetUserId(User))
             {
-                return NotFound();
+                return RedirectToPage("AccessDenied");
             }
 
             PictureAccess = await _context.PictureAccess.Where(x => x.PhotoId == Picture.ID).Include(u => u.User).ToListAsync();
@@ -70,15 +70,16 @@ namespace PixCollab.Pages.Picture
         public async Task<IActionResult> OnPostAsync()
         {
 
-            string userid = _context.UserInfo.Where(x => x.Email == useremail).FirstOrDefault().UserId;
+            var userid = _context.UserInfo.Where(x => x.Email == useremail).FirstOrDefault();
 
-            if (userid != null && userid != "")
+
+            if (userid != null)
             {
-                var check = _context.PictureAccess.Where(x => x.UserId == userid && x.PhotoId == Picture.ID);
+                var check = await _context.PictureAccess.Where(x => x.UserId == userid.UserId && x.PhotoId == Picture.ID).ToListAsync();
 
-                if (check == null)
+                if (check.Count <= 0)
                 {
-                    var access = new Models.PictureAccess { PhotoId = Picture.ID, UserId = userid };
+                    var access = new Models.PictureAccess { PhotoId = Picture.ID, UserId = userid.UserId };
 
                     _context.PictureAccess.Add(access);
 

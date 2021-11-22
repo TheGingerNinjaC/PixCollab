@@ -26,16 +26,20 @@
                         </div>
                     </form>
                     <label class="form-label pb-1">Access has been granted to</label><br />
-                    @foreach (var item in Model.PictureAccess)
-                    {
-                        <form method="post" asp-page-handler="Delete" asp-route-uid="@item.UserId">
-                            <input type="hidden" asp-for="Picture.ID" />
-                            <span class="border border-success rounded p-2 small m-1">
-                                @item.User.FirstName @item.User.LastName &nbsp; <button type="submit" class="btn-close" aria-label="Close"></button>
-                            </span>
-                        </form>
+                    <div class="row">
+                        @foreach (var item in Model.PictureAccess)
+                        {
+                            <div class="col-3">
+                                <form method="post" asp-page-handler="Delete" asp-route-uid="@item.UserId">
+                                    <input type="hidden" asp-for="Picture.ID" />
+                                    <div class="border border-success rounded p-2 small col d-flex">
+                                        @item.User.FirstName @item.User.LastName &nbsp; <button type="submit" class="btn-close" aria-label="Close"></button>
+                                    </div>
+                                </form>
+                            </div>
 
-                    }
+                        }
+                    </div>
 
                     @if (Model.ErrorMsg != null || Model.AlertMsg != null)
                     {

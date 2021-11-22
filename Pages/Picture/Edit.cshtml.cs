@@ -90,7 +90,7 @@ namespace PixCollab.Pages.Picture
             {
                 if (!PictureExists(Picture.ID))
                 {
-                    return NotFound();
+                    return RedirectToPage("NotFound");
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace PixCollab.Pages.Picture
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Details", new { id = Picture.ID});
         }
 
         private bool PictureExists(int id)

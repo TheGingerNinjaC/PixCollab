@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ namespace PixCollab.Pages.Picture
     public class DeleteModel : PageModel
     {
         private readonly PixCollab.Data.ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public DeleteModel(PixCollab.Data.ApplicationDbContext context)
+        public DeleteModel(PixCollab.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -28,14 +31,21 @@ namespace PixCollab.Pages.Picture
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage("NotFound");
             }
 
             Picture = await _context.Picture.Include(u => u.Metadata).Include(p => p.Owner).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Picture == null)
             {
-                return NotFound();
+                return RedirectToPage("NotFound");
+            }
+            else
+            {
+                if (Picture.OwnerId != _userManager.GetUserId(User))
+                {
+                    return RedirectToPage("AccessDenied");
+                }
             }
             
             return Page();
@@ -45,7 +55,7 @@ namespace PixCollab.Pages.Picture
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToPage("NotFound");
             }
 
             Picture = await _context.Picture.FindAsync(id);
@@ -61,10 +71,17 @@ namespace PixCollab.Pages.Picture
 
                 var meta = await _context.PictureMetadata.FindAsync(Picture.ID);
 
-                _context.PictureMetadata.Remove(meta);
+                if (meta != null)
+                {
+                    _context.PictureMetadata.Remove(meta);
+                }
 
                 _context.Picture.Remove(Picture);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return RedirectToPage("NotFound");
             }
 
             return RedirectToPage("./Index");
